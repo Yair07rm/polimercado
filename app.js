@@ -56,27 +56,45 @@ function renderSchoolsGrid() {
 function handleProductSubmit(e, currentSchool) {
     e.preventDefault();
     
+    const fileInput = e.target.querySelector('input[type="file"]');
+    const file = fileInput ? fileInput.files[0] : null;
+
     const name = document.getElementById('prod-name').value;
     const category = document.getElementById('prod-category').value;
     const stock = document.getElementById('prod-stock').value;
     const global = document.getElementById('prod-global').checked;
 
-    let products = JSON.parse(localStorage.getItem('mockProducts'));
-    
-    products.push({
-        id: Date.now(),
-        name,
-        category,
-        stock: parseInt(stock),
-        school: currentSchool,
-        global,
-        img: "📷" // Placeholder
-    });
+    // Función auxiliar para guardar y actualizar el producto
+    const saveProduct = (imageDataUrl) => {
+        let products = JSON.parse(localStorage.getItem('mockProducts')) || [];
+        
+        products.push({
+            id: Date.now(),
+            name: name,
+            category: category,
+            stock: parseInt(stock),
+            school: currentSchool,
+            global: global,
+            img: imageDataUrl // Guardamos la imagen en formato Base64 o un placeholder
+        });
 
-    localStorage.setItem('mockProducts', JSON.stringify(products));
+        localStorage.setItem('mockProducts', JSON.stringify(products));
 
-    alert("¡Producto publicado exitosamente!");
-    document.getElementById('seller-form').reset();
+        alert("¡Producto publicado exitosamente!");
+        document.getElementById('seller-form').reset();
+    };
+
+    // Si el usuario subió una foto, la leemos como DataURL (Base64)
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            saveProduct(event.target.result); // La cadena Base64 de la imagen
+        };
+        reader.readAsDataURL(file);
+    } else {
+        // En caso de que no haya archivo subido
+        saveProduct("https://via.placeholder.com/180?text=Sin+Foto");
+    }
 }
 
 function renderBuyerView(currentSchool) {
@@ -91,7 +109,7 @@ function renderProductGrid(products, currentSchool) {
     
     grid.innerHTML = '';
     
-    if(products.length === 0) {
+    if (products.length === 0) {
         grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">No hay productos disponibles en esta categoría por el momento.</p>';
         return;
     }
@@ -100,7 +118,9 @@ function renderProductGrid(products, currentSchool) {
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
-            <div class="product-img">${p.img}</div>
+            <div class="product-img">
+                <img src="${p.img}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
             <div class="product-info">
                 <span class="badge">${p.category}</span>
                 <h3>${p.name}</h3>
