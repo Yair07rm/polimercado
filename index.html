@@ -10,7 +10,7 @@
 <body>
     <nav class="navbar">
         <div class="logo">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Logo_Instituto_Polit%C3%A9cnico_Nacional.png" alt="Logo IPN" class="ipn-logo">
+            <img src="img/burritovendedor.jpg" alt="Logo IPN" class="ipn-logo">
             <span>PoliMercado</span>
         </div>
         <div class="mascot">
@@ -28,8 +28,10 @@
         </div>
     </main>
 
-    <script src="app.js"></script>
-    <script>
+    <!-- NOTA IMPORTANTE: type="module" es necesario para importar Supabase -->
+    <script type="module" src="app.js"></script>
+    <script type="module">
+        import { renderSchoolsGrid } from './app.js';
         document.addEventListener("DOMContentLoaded", () => {
             renderSchoolsGrid();
         });

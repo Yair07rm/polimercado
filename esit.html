@@ -9,7 +9,7 @@
 <body>
     <nav class="navbar">
         <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Logo_Instituto_Polit%C3%A9cnico_Nacional.png" alt="Logo IPN" class="ipn-logo">
+            <img src="img/burritovendedor.jpg" alt="Logo IPN" class="ipn-logo">
             <span>PoliMercado</span>
         </div>
         <div class="mascot">
@@ -26,7 +26,7 @@
             <button class="btn btn-large" onclick="document.getElementById('seller-view').style.display='block'; document.getElementById('buyer-view').style.display='none';">
                 📦 Soy Vendedor
             </button>
-            <button class="btn btn-large btn-outline" onclick="document.getElementById('buyer-view').style.display='block'; document.getElementById('seller-view').style.display='none'; renderBuyerView('ESIT')">
+            <button class="btn btn-large btn-outline" onclick="document.getElementById('buyer-view').style.display='block'; document.getElementById('seller-view').style.display='none'; window.renderBuyerView('ESIT')">
                 🛍️ Soy Comprador
             </button>
         </div>
@@ -35,7 +35,7 @@
         <div id="seller-view" style="display:none; margin-top: 3rem;">
             <h2 class="text-center">Publicar un Producto/Servicio en ESIT</h2>
             <div class="form-card">
-                <form id="seller-form" onsubmit="handleProductSubmit(event, 'ESIT')">
+                <form id="seller-form" onsubmit="window.handleProductSubmit(event, 'ESIT')">
                     <div class="form-group">
                         <label>Foto del producto</label>
                         <input type="file" accept="image/*" required>
@@ -72,7 +72,7 @@
         <div id="buyer-view" style="display:none; margin-top: 3rem;">
             <h2 class="text-center">Mercado de ESIT</h2>
             <div class="filters">
-                <select id="filter-category" onchange="filterProducts('ESIT')" style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+                <select id="filter-category" onchange="window.filterProducts('ESIT')" style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
                     <option value="All">Todas las categorías</option>
                     <option value="Comida">Comida</option>
                     <option value="Servicios">Servicios</option>
@@ -84,6 +84,7 @@
         </div>
     </main>
 
-    <script src="app.js"></script>
+    <!-- NOTA IMPORTANTE: type="module" es necesario para usar import/export con Supabase -->
+    <script type="module" src="app.js"></script>
 </body>
 </html>
